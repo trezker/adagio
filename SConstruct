@@ -2,7 +2,7 @@ import glob
 import sys
 import os
 
-files = glob.glob('src/*.c')
+files = glob.glob('src/*.cpp')
 files = [x.replace("src", "obj") for x in files]
 
 env = Environment(CPPPATH = ['include'])

@@ -4,20 +4,36 @@
 namespace adagio
 {
 
-/* Class: Widget
- * */
-class Widget_renderer
+class Widget;
+
+class Renderfunction
 {
 public:
-	Widget();
-	virtual ~Widget_renderer();
+	void (*func)( const Widget& );
+	Renderfunction(){}
+	Renderfunction(void (*f)( const Widget& ))
+	:func(f)
+	{}
+	virtual void operator()(const Widget& arg0)
+	{
+		return func(arg0);
+	}
 };
 
-class Default_widget_renderer
+template <class T>
+class Renderfunctor : public Renderfunction
 {
+	void (T::*func)( const Widget& );
+	T *o;
 public:
-	void Render(Group* w);
-	void Render(Button* w);
+	Renderfunctor(void (T::*f)( const Widget& ), T& instance)
+	:func(f)
+	,o(&instance)
+	{}
+	virtual void operator()(const Widget& arg0)
+	{
+		return (o->*func)(arg0);
+	}
 };
 
 }

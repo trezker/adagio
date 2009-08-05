@@ -35,7 +35,6 @@ Format: 1.35
 
 
 File: Widget  (/home/anders/allegro/Adagio/include/adagio/Widget.h)
-File: Widget  (/home/anders/allegro/Adagio/include/adagio/Widget_renderer.h)
 File: Widget_factory  (/home/anders/allegro/Adagio/include/adagio/Widget_factory.h)
 
 Group: Index  {

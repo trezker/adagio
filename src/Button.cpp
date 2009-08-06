@@ -15,8 +15,7 @@ void Button::Handle_event(const ALLEGRO_EVENT &event)
 
 void Button::Render() const
 {
-	if(renderfunction)
-		(*renderfunction)(*this);
+	renderfunction(*this);
 }
 
 }

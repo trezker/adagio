@@ -1,6 +1,8 @@
 #ifndef adagio_widget_h
 #define adagio_widget_h
 
+#include "adagio/Widget_renderer.h"
+
 namespace adagio
 {
 
@@ -29,11 +31,11 @@ public:
 
 	void Set_event_queue(Event_queue* event_queue);
 
-	void Set_renderer(Renderfunction* renderfunction);
+	void Set_renderer(const Renderfunction& renderfunction);
 protected:
 	Widget* parent;
 	Event_queue* event_queue;
-	Renderfunction* renderfunction;
+	Renderfunction renderfunction;
 	int x;
 	int y;
 	int w;

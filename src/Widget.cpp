@@ -7,7 +7,6 @@ namespace adagio
 Widget::Widget()
 :	parent(NULL),
 	event_queue(NULL),
-	renderfunction(NULL),
 	x(0),
 	y(0),
 	w(0),
@@ -41,7 +40,7 @@ void Widget::Set_event_queue(Event_queue* e)
 	event_queue = e;
 }
 
-void Widget::Set_renderer(Renderfunction* r)
+void Widget::Set_renderer(const Renderfunction& r)
 {
 	renderfunction = r;
 }

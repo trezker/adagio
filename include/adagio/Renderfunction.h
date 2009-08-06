@@ -1,5 +1,5 @@
-#ifndef adagio_widget_renderer_h
-#define adagio_widget_renderer_h
+#ifndef adagio_renderfunction_h
+#define adagio_renderfunction_h
 
 #ifndef NULL
 #define NULL 0

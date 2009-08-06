@@ -1,7 +1,7 @@
 #ifndef adagio_widget_h
 #define adagio_widget_h
 
-#include "adagio/Widget_renderer.h"
+#include "adagio/Renderfunction.h"
 
 namespace adagio
 {

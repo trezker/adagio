@@ -4,9 +4,19 @@
 namespace adagio
 {
 
+class Widget;
+
+class Event
+{
+public:
+	Widget* source;
+	int type;
+};
+
 class Event_queue
 {
 public:
+	bool Get_next_event(Event &e);
 private:
 };
 

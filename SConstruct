@@ -17,8 +17,8 @@ env.Append(LIBS=['allegro-4.9.13','a5_iio-4.9.13','a5_font-4.9.13','a5_ttf-4.9.1
 adagio = env.StaticLibrary('lib/adagio',files)
 adagio_shared = env.SharedLibrary('lib/adagio',files)
 
-#env.Append(LIBS = [adagio])
-#test_exe = env.Program('test/test', 'test/test.c')
+env.Append(LIBS = [adagio])
+example_exe = env.Program('examples/basic', 'examples/basic.cpp')
 
 ##### Install #####
 env.Alias('install', '/usr/local')

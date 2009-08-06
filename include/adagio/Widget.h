@@ -2,11 +2,11 @@
 #define adagio_widget_h
 
 #include "adagio/Renderfunction.h"
+union ALLEGRO_EVENT;
 
 namespace adagio
 {
 
-struct ALLEGRO_EVENT;
 class Event_queue;
 class Renderfunction;
 

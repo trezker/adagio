@@ -17,4 +17,8 @@ void Button::Render() const
 	renderfunction(*this);
 }
 
+void Button::Set_label(const std::string& label)
+{
+}
+
 }

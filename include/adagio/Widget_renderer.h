@@ -86,15 +86,24 @@ public:
 	}
 };
 
+/* Class: Renderfunction
+ * Universal function container for widget rendering functions.
+ * */
 class Renderfunction
 {
 	Renderfunction_impl* impl;
 public:
+	/* Constructor: Renderfunction
+	 * Creates a function that does nothing.
+	 * */
 	Renderfunction()
 	:impl(NULL)
 	{
 	}
 	
+	/* Constructor: Renderfunction
+	 * Copy constructor
+	 * */
 	Renderfunction(const Renderfunction& o)
 	{
 		if(o.impl)
@@ -103,29 +112,66 @@ public:
 			impl = NULL;
 	}
 
+	/* Destructor: ~Renderfunction
+	 * 
+	 * */
 	~Renderfunction()
 	{
 		if(impl)
 			delete impl;
 	}
 	
+	/* Constructor: Renderfunction
+	 * Constructor for ordinary function taking the Widget base class as argument.
+	 * 
+	 * Example:
+	 * >void foo(const Widget& b);
+	 * >Renderfunction(foo);
+	 * */
 	Renderfunction(void (*f)( const Widget& ))
 	{
 		impl = new Renderfunction_impl(f);
 	}
 
+	/* Constructor: Renderfunction
+	 * Constructor for ordinary function taking a specific Widget derived class as argument.
+	 * 
+	 * Example:
+	 * >void foo(const Button& b);
+	 * >Renderfunction<Button>(foo);
+	 * */
 	template<typename U>
 	Renderfunction(void (*f)( const U& ))
 	{
 		impl = new Renderfunction_impl_U<U>(f);
 	}
 	
+	/* Constructor: Renderfunction
+	 * Constructor for member function the Widget base class as argument.
+	 *
+	 * Example: 
+	 * >class Foo{ 
+	 * >	void bar(const Widget &w);
+	 * >};
+	 * >Foo aFoo;
+	 * >Renderfunction<Foo>(&Foo::bar, aFoo);
+	 * */
 	template<typename T>
 	Renderfunction(void (T::*f)( const Widget& ), T& instance)
 	{
 		impl = new Renderfunctor_impl<T>(f, instance);
 	}
 
+	/* Constructor: Renderfunction
+	 * Constructor for member function taking a specific Widget derived class as argument.
+	 *
+	 * Example: 
+	 * >class Foo{ 
+	 * >	void bar(const Button &w);
+	 * >};
+	 * >Foo aFoo;
+	 * >Renderfunction<Foo, Button>(&Foo::bar, aFoo);
+	 * */
 	template<typename T, typename U>
 	Renderfunction(void (T::*f)( const U& ), T& instance)
 	{

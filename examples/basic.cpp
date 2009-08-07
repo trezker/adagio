@@ -4,32 +4,58 @@
 #include <allegro5/a5_ttf.h>
 #include <adagio/adagio.h>
 
+
 namespace adagio
 {
-	class Group: public Widget
+
+/*	void Render_group(const Widget& widget)
+	{
+		const Group& group = dynamic_cast<const Group&>(widget);
+		const Group::Widgets &widgets = group.Get_widgets();
+		for(Group::Widgets::const_iterator i = widgets.begin(); i != widgets.end(); ++i)
+		{
+			(*i)->Render();
+		}
+	}
+*/
+//adagio::Renderfunctor_impl_U<adagio::Widget_renderers, adagio::Group>::Renderfunctor_impl_U(void (adagio::Widget_renderers::*)(const adagio::Widget&), adagio::Widget_renderers&)
+//adagio::Renderfunctor_impl_U<adagio::Widget_renderers, adagio::Group>::Renderfunctor_impl_U(void (adagio::Widget_renderers::*)(const adagio::Group&), adagio::Widget_renderers&)
+//adagio::Renderfunctor_impl_U<adagio::Widget_renderers, adagio::Group>::Renderfunctor_impl_U(const adagio::Renderfunctor_impl_U<adagio::Widget_renderers, adagio::Group>&)
+
+	class Widget_renderers
 	{
 	public:
-		virtual Widget* Clone() const
+		void Render_group(const Group& group)
 		{
-			return new Group(*this);
-		}
-		virtual void Handle_event(const ALLEGRO_EVENT &event)
-		{}
-		virtual void Render() const
-		{}
-		void Add_widget(Widget* w)
-		{
+			const Group::Widgets &widgets = group.Get_widgets();
+			for(Group::Widgets::const_iterator i = widgets.begin(); i != widgets.end(); ++i)
+			{
+				(*i)->Render();
+			}
 		}
 	};
+	Widget_renderers wr;
+
+	void Render_group(const Group& group)
+	{
+		const Group::Widgets &widgets = group.Get_widgets();
+		for(Group::Widgets::const_iterator i = widgets.begin(); i != widgets.end(); ++i)
+		{
+			(*i)->Render();
+		}
+	}
 
 	void Init_default_widgets(Widget_factory &wf, Resource_manager &rm)
 	{
 		Button* button = new Button;
 		wf.Set_prototype("button", button);
+
+
 		Group* group = new Group;
+//		group->Set_renderer(Bind_renderfunction<Group>(Render_group));
+		group->Set_renderer(Bind_renderfunction<Widget_renderers, Group>(&Widget_renderers::Render_group, wr));
 		wf.Set_prototype("group", group);
 	}
-	
 }
 
 int main()

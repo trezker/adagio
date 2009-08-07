@@ -1,9 +1,17 @@
 #ifndef adagio_renderfunction_h
 #define adagio_renderfunction_h
 
+#include <iostream>
+
 #ifndef NULL
 #define NULL 0
 #endif
+
+/*
+ * bind<U>(foo)
+ * bind<T>(&Bar::foo, aBar)
+ * bind<T, U>(&Bar::foo, aBar)
+ * */
 
 namespace adagio
 {
@@ -15,11 +23,13 @@ class Renderfunction_impl
 public:
 	void (*func)( const Widget& );
 	Renderfunction_impl(){}
+	virtual ~Renderfunction_impl(){}
 	Renderfunction_impl(void (*f)( const Widget& ))
 	:func(f)
 	{}
-	Renderfunction_impl* Clone() const
+	virtual Renderfunction_impl* Clone() const
 	{
+		printf("Clone base\n");
 		return new Renderfunction_impl(*this);
 	} 
 	virtual void operator()(const Widget& arg0)
@@ -36,13 +46,13 @@ public:
 	Renderfunction_impl_U(void (*f)( const U& ))
 	:func(f)
 	{}
-	Renderfunction_impl_U* Clone() const
+	virtual Renderfunction_impl_U* Clone() const
 	{
 		return new Renderfunction_impl_U(*this);
 	} 
 	virtual void operator()(const Widget& arg0)
 	{
-		return func(dynamic_cast<U &> (arg0));
+		return func(dynamic_cast<const U &> (arg0));
 	}
 };
 
@@ -56,7 +66,7 @@ public:
 	:func(f)
 	,o(&instance)
 	{}
-	Renderfunctor_impl* Clone() const
+	virtual Renderfunctor_impl* Clone() const
 	{
 		return new Renderfunctor_impl(*this);
 	} 
@@ -76,15 +86,27 @@ public:
 	:func(f)
 	,o(&instance)
 	{}
-	Renderfunctor_impl_U* Clone() const
+	virtual Renderfunctor_impl_U* Clone() const
 	{
 		return new Renderfunctor_impl_U(*this);
 	} 
 	virtual void operator()(const Widget& arg0)
 	{
-		return (o->*func)(dynamic_cast<U &>(arg0));
+		return (o->*func)(dynamic_cast<const U &>(arg0));
 	}
 };
+
+template<class U>
+Renderfunction_impl_U<U> Bind_renderfunction(void (*f)( const U& ))
+{
+	return Renderfunction_impl_U<U>(f);
+}
+
+template<class T, class U>
+Renderfunctor_impl_U<T, U> Bind_renderfunction(void (T::*f)( const U& ), T& instance)
+{
+	return Renderfunctor_impl_U<T, U>(f, instance);
+}
 
 /* Class: Renderfunction
  * Universal function container for widget rendering functions.
@@ -111,6 +133,15 @@ public:
 		else
 			impl = NULL;
 	}
+	
+	Renderfunction& operator=(const Renderfunction& o)
+	{
+		if(o.impl)
+			impl = o.impl->Clone();
+		else
+			impl = NULL;
+		return *this;
+	}
 
 	/* Destructor: ~Renderfunction
 	 * 
@@ -133,6 +164,10 @@ public:
 		impl = new Renderfunction_impl(f);
 	}
 
+	Renderfunction(const Renderfunction_impl& binding)
+	{
+		impl = binding.Clone();
+	}
 	/* Constructor: Renderfunction
 	 * Constructor for ordinary function taking a specific Widget derived class as argument.
 	 * 
@@ -140,12 +175,12 @@ public:
 	 * >void foo(const Button& b);
 	 * >Renderfunction<Button>(foo);
 	 * */
-	template<typename U>
+/*	template<typename U>
 	Renderfunction(void (*f)( const U& ))
 	{
 		impl = new Renderfunction_impl_U<U>(f);
 	}
-	
+	*/
 	/* Constructor: Renderfunction
 	 * Constructor for member function the Widget base class as argument.
 	 *
@@ -156,12 +191,12 @@ public:
 	 * >Foo aFoo;
 	 * >Renderfunction<Foo>(&Foo::bar, aFoo);
 	 * */
-	template<typename T>
+/*	template<typename T>
 	Renderfunction(void (T::*f)( const Widget& ), T& instance)
 	{
 		impl = new Renderfunctor_impl<T>(f, instance);
 	}
-
+*/
 	/* Constructor: Renderfunction
 	 * Constructor for member function taking a specific Widget derived class as argument.
 	 *
@@ -172,12 +207,12 @@ public:
 	 * >Foo aFoo;
 	 * >Renderfunction<Foo, Button>(&Foo::bar, aFoo);
 	 * */
-	template<typename T, typename U>
+/*	template<typename T, typename U>
 	Renderfunction(void (T::*f)( const U& ), T& instance)
 	{
 		impl = new Renderfunctor_impl_U<T, U>(f, instance);
 	}
-	
+	*/
 	void operator()(const Widget& arg0) const
 	{
 		if(impl)

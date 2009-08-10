@@ -1,26 +1,24 @@
-#ifndef adagio_button_h
-#define adagio_button_h
+#ifndef adagio_group_h
+#define adagio_group_h
 
 #include "adagio/Widget.h"
 #include <string>
+#include <list>
 
 namespace adagio
 {
 
-class Button: public Widget
+class Group: public Widget
 {
 public:
-	enum Event_type
-	{
-		EVENT_PRESSED
-	};
 	virtual Widget* Clone() const;
 	virtual void Handle_event(const ALLEGRO_EVENT &event);
 	virtual void Render() const;
-	void Set_label(const std::string& label);
-	std::string Get_label() const;
+	void Add_widget(Widget* w);
+	typedef std::list<Widget*> Widgets;
+	const Widgets& Get_widgets() const;
 private:
-	std::string label;
+	Widgets widgets;	
 };
 
 }

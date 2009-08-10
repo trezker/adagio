@@ -2,29 +2,26 @@
 #include <allegro5/a5_iio.h>
 #include <allegro5/a5_font.h>
 #include <allegro5/a5_ttf.h>
+#include <allegro5/a5_primitives.h>
 #include <adagio/adagio.h>
 
 
 namespace adagio
 {
 
-/*	void Render_group(const Widget& widget)
-	{
-		const Group& group = dynamic_cast<const Group&>(widget);
-		const Group::Widgets &widgets = group.Get_widgets();
-		for(Group::Widgets::const_iterator i = widgets.begin(); i != widgets.end(); ++i)
-		{
-			(*i)->Render();
-		}
-	}
-*/
-//adagio::Renderfunctor_impl_U<adagio::Widget_renderers, adagio::Group>::Renderfunctor_impl_U(void (adagio::Widget_renderers::*)(const adagio::Widget&), adagio::Widget_renderers&)
-//adagio::Renderfunctor_impl_U<adagio::Widget_renderers, adagio::Group>::Renderfunctor_impl_U(void (adagio::Widget_renderers::*)(const adagio::Group&), adagio::Widget_renderers&)
-//adagio::Renderfunctor_impl_U<adagio::Widget_renderers, adagio::Group>::Renderfunctor_impl_U(const adagio::Renderfunctor_impl_U<adagio::Widget_renderers, adagio::Group>&)
-
 	class Widget_renderers
 	{
 	public:
+		Widget_renderers()
+		:font(NULL)
+		{
+		}
+		
+		void Init()
+		{
+			font = al_load_font("data/times.ttf", 20, 0);
+		}
+
 		void Render_group(const Group& group)
 		{
 			const Group::Widgets &widgets = group.Get_widgets();
@@ -33,6 +30,18 @@ namespace adagio
 				(*i)->Render();
 			}
 		}
+		
+		void Render_button(const Button& button)
+		{
+			int x = button.Get_x();
+			int y = button.Get_y();
+			int w = button.Get_w();
+			int h = button.Get_h();
+			al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(100, 100, 100));
+			al_draw_text(font, x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
+		}
+	private:
+		ALLEGRO_FONT* font;
 	};
 	Widget_renderers wr;
 
@@ -47,12 +56,12 @@ namespace adagio
 
 	void Init_default_widgets(Widget_factory &wf, Resource_manager &rm)
 	{
+		wr.Init();
 		Button* button = new Button;
 		wf.Set_prototype("button", button);
-
+		button->Set_renderer(Bind_renderfunction<Widget_renderers, Button>(&Widget_renderers::Render_button, wr));
 
 		Group* group = new Group;
-//		group->Set_renderer(Bind_renderfunction<Group>(Render_group));
 		group->Set_renderer(Bind_renderfunction<Widget_renderers, Group>(&Widget_renderers::Render_group, wr));
 		wf.Set_prototype("group", group);
 	}
@@ -85,6 +94,8 @@ int main()
 		//Create and set up widgets
 		adagio::Button* button = widget_factory.Clone<adagio::Button>("button");
 		button->Set_label("Ze button");
+		button->Set_position(10, 10);
+		button->Set_size(100, 30);
 
 		adagio::Group* root = widget_factory.Clone<adagio::Group>("group");
 		root->Add_widget(button);

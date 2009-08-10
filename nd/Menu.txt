@@ -34,7 +34,7 @@ Format: 1.35
 # --------------------------------------------------------------------------
 
 
-File: Renderfunction  (/home/anders/allegro/Adagio/include/adagio/Renderfunction.h)
+File: Renderfunction.h  (/home/anders/allegro/Adagio/include/adagio/Renderfunction.h)
 File: Widget  (/home/anders/allegro/Adagio/include/adagio/Widget.h)
 File: Widget_factory  (/home/anders/allegro/Adagio/include/adagio/Widget_factory.h)
 
@@ -43,6 +43,7 @@ Group: Index  {
    Index: Everything
    Class Index: Classes
    Function Index: Functions
+   File Index: Files
    }  # Group: Index
 
 

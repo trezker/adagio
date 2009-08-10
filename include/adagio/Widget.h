@@ -28,9 +28,12 @@ public:
 
 	void Set_position(int x, int y);
 	void Set_size(int w, int h);
+	int Get_x() const;
+	int Get_y() const;
+	int Get_w() const;
+	int Get_h() const;
 
 	void Set_event_queue(Event_queue* event_queue);
-
 	void Set_renderer(const Renderfunction& renderfunction);
 protected:
 	Widget* parent;

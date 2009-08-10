@@ -38,6 +38,27 @@ void Widget::Set_size(int iw, int ih)
 	h = ih;
 }
 
+int Widget::Get_x() const
+{
+	return x;
+}
+
+int Widget::Get_y() const
+{
+	return y;
+}
+
+int Widget::Get_w() const
+{
+	return w;
+}
+
+int Widget::Get_h() const
+{
+	return h;
+}
+
+
 void Widget::Set_event_queue(Event_queue* e)
 {
 	event_queue = e;

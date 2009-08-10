@@ -7,12 +7,9 @@
 #define NULL 0
 #endif
 
-/*
- * bind<U>(foo)
- * bind<T>(&Bar::foo, aBar)
- * bind<T, U>(&Bar::foo, aBar)
- * */
-
+/*twitter
+implemented function and bind for a specific use. +1 in skill "C++ templates". -1 in dependency "boost".
+*/
 namespace adagio
 {
 
@@ -96,12 +93,18 @@ public:
 	}
 };
 
+/* Function: Bind_renderfunction
+ * For ordinary functions.
+ * */
 template<class U>
 Renderfunction_impl_U<U> Bind_renderfunction(void (*f)( const U& ))
 {
 	return Renderfunction_impl_U<U>(f);
 }
 
+/* Function: Bind_renderfunction
+ * For member functions.
+ * */
 template<class T, class U>
 Renderfunctor_impl_U<T, U> Bind_renderfunction(void (T::*f)( const U& ), T& instance)
 {
@@ -164,55 +167,15 @@ public:
 		impl = new Renderfunction_impl(f);
 	}
 
+	/* Constructor: Renderfunction
+	 * Constructor for bound function.
+	 * See Bind_renderfunction
+	 * */
 	Renderfunction(const Renderfunction_impl& binding)
 	{
 		impl = binding.Clone();
 	}
-	/* Constructor: Renderfunction
-	 * Constructor for ordinary function taking a specific Widget derived class as argument.
-	 * 
-	 * Example:
-	 * >void foo(const Button& b);
-	 * >Renderfunction<Button>(foo);
-	 * */
-/*	template<typename U>
-	Renderfunction(void (*f)( const U& ))
-	{
-		impl = new Renderfunction_impl_U<U>(f);
-	}
-	*/
-	/* Constructor: Renderfunction
-	 * Constructor for member function the Widget base class as argument.
-	 *
-	 * Example: 
-	 * >class Foo{ 
-	 * >	void bar(const Widget &w);
-	 * >};
-	 * >Foo aFoo;
-	 * >Renderfunction<Foo>(&Foo::bar, aFoo);
-	 * */
-/*	template<typename T>
-	Renderfunction(void (T::*f)( const Widget& ), T& instance)
-	{
-		impl = new Renderfunctor_impl<T>(f, instance);
-	}
-*/
-	/* Constructor: Renderfunction
-	 * Constructor for member function taking a specific Widget derived class as argument.
-	 *
-	 * Example: 
-	 * >class Foo{ 
-	 * >	void bar(const Button &w);
-	 * >};
-	 * >Foo aFoo;
-	 * >Renderfunction<Foo, Button>(&Foo::bar, aFoo);
-	 * */
-/*	template<typename T, typename U>
-	Renderfunction(void (T::*f)( const U& ), T& instance)
-	{
-		impl = new Renderfunctor_impl_U<T, U>(f, instance);
-	}
-	*/
+
 	void operator()(const Widget& arg0) const
 	{
 		if(impl)

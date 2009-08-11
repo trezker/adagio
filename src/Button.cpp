@@ -5,6 +5,11 @@
 namespace adagio
 {
 
+Button::Button()
+:pressed(false)
+{
+}
+
 Widget* Button::Clone() const
 {
 	return new Button(*this);
@@ -19,10 +24,18 @@ void Button::Handle_event(const ALLEGRO_EVENT &event)
 		if(!mouse_over && !(emx<x || emx>x+w || emy<y || emy>y+h))
 		{
 			mouse_over = true;
+			Event e;
+			e.source = this;
+			e.type = "enter";
+			Push_event(e);
 		}
 		else if(mouse_over && (emx<x || emx>x+w || emy<y || emy>y+h))
 		{
 			mouse_over = false;
+			Event e;
+			e.source = this;
+			e.type = "leave";
+			Push_event(e);
 		}
 	}
 	if(ALLEGRO_EVENT_MOUSE_BUTTON_DOWN == event.type)
@@ -30,16 +43,24 @@ void Button::Handle_event(const ALLEGRO_EVENT &event)
 		if(mouse_over)
 		{
 			pressed = true;
+			Event e;
+			e.source = this;
+			e.type = "pressed";
+			Push_event(e);
 		}
 	}
-	if(ALLEGRO_EVENT_MOUSE_BUTTON_UP == event.type)
+	if(pressed && ALLEGRO_EVENT_MOUSE_BUTTON_UP == event.type)
 	{
 		pressed = false;
+		Event e;
+		e.source = this;
+		e.type = "released";
+		Push_event(e);
 		if(mouse_over)
 		{
 			Event e;
 			e.source = this;
-			e.type = EVENT_PRESSED;
+			e.type = "clicked";
 			Push_event(e);
 		}
 	}

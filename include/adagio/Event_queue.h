@@ -2,6 +2,7 @@
 #define adagio_event_queue_h
 
 #include <queue>
+#include <string>
 
 namespace adagio
 {
@@ -14,7 +15,7 @@ class Event
 {
 public:
 	Widget* source;
-	int type;
+	std::string type;
 	virtual Event* Clone() const;
 };
 

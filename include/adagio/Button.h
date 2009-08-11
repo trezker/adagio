@@ -10,10 +10,7 @@ namespace adagio
 class Button: public Widget
 {
 public:
-	enum Event_type
-	{
-		EVENT_PRESSED = 0
-	};
+	Button();
 	virtual Widget* Clone() const;
 	virtual void Handle_event(const ALLEGRO_EVENT &event);
 	virtual void Render() const;

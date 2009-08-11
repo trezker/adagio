@@ -20,6 +20,8 @@ namespace adagio
 		void Init()
 		{
 			font = al_load_font("data/times.ttf", 20, 0);
+			if(!font)
+				font = al_load_font("examples/data/times.ttf", 20, 0);
 		}
 
 		void Render_group(const Group& group)
@@ -37,7 +39,10 @@ namespace adagio
 			int y = button.Get_y();
 			int w = button.Get_w();
 			int h = button.Get_h();
-			al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(100, 100, 100));
+			if(button.Get_mouse_over())
+				al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(200, 200, 200));
+			else
+				al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(100, 100, 100));
 			al_draw_text(font, x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
 		}
 	private:

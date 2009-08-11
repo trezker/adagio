@@ -13,7 +13,8 @@ Widget::Widget()
 	x(0),
 	y(0),
 	w(0),
-	h(0)
+	h(0),
+	mouse_over(false)
 {
 }
 
@@ -58,6 +59,10 @@ int Widget::Get_h() const
 	return h;
 }
 
+bool Widget::Get_mouse_over() const
+{
+	return mouse_over;
+}
 
 void Widget::Set_event_queue(Event_queue* e)
 {

@@ -38,6 +38,7 @@ public:
 	void Set_event_queue(Event_queue* event_queue);
 	void Set_renderer(const Renderfunction& renderfunction);
 protected:
+	void Push_event(const Event& event);
 	void Handle_child_event(const Event& event);
 
 	Widget* parent;

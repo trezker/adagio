@@ -24,6 +24,7 @@ void Group::Render() const
 void Group::Add_widget(Widget* w)
 {
 	widgets.push_back(w);
+	w->Set_parent(this);
 }
 
 const Group::Widgets& Group::Get_widgets() const

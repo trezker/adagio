@@ -152,7 +152,8 @@ int main()
 				const adagio::Event &gui_event = gui_event_queue.Front();
 				if(button == gui_event.source && adagio::Button::EVENT_PRESSED == gui_event.type)
 				{
-					const adagio::Button_pressed_event& b_event = dynamic_cast<const adagio::Button_pressed_event&>(gui_event);
+					printf("Button pressed\n");
+//					const adagio::Button_pressed_event& b_event = dynamic_cast<const adagio::Button_pressed_event&>(gui_event);
 					//do stuff
 				}
 				gui_event_queue.Pop();

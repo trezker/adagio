@@ -1,4 +1,5 @@
 #include "adagio/Widget.h"
+#include "adagio/Event_queue.h"
 
 #ifndef NULL
 #define NULL 0
@@ -74,13 +75,16 @@ void Widget::Set_renderer(const Renderfunction& r)
 	renderfunction = r;
 }
 
-void Widget::Handle_child_event(const Event& event)
+void Widget::Push_event(const Event& event)
 {
-/*	if(event_queue)
+	if(event_queue)
 	{
-		event_queue.
+		event_queue->Push(event);
 	}
-*/
+	if(parent)
+	{
+		parent->Push_event(event);
+	}
 }
 
 }

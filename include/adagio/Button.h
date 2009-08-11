@@ -12,7 +12,7 @@ class Button: public Widget
 public:
 	enum Event_type
 	{
-		EVENT_PRESSED
+		EVENT_PRESSED = 0
 	};
 	virtual Widget* Clone() const;
 	virtual void Handle_event(const ALLEGRO_EVENT &event);

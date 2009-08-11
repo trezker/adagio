@@ -1,4 +1,5 @@
 #include "adagio/Button.h"
+#include "adagio/Event_queue.h"
 #include <allegro5/allegro.h>
 
 namespace adagio
@@ -36,7 +37,10 @@ void Button::Handle_event(const ALLEGRO_EVENT &event)
 		pressed = false;
 		if(mouse_over)
 		{
-			// todo: activation event
+			Event e;
+			e.source = this;
+			e.type = EVENT_PRESSED;
+			Push_event(e);
 		}
 	}
 }

@@ -8,6 +8,7 @@ namespace adagio
 {
 
 class Event_queue;
+class Event;
 class Renderfunction;
 
 /* Class: Widget
@@ -37,6 +38,8 @@ public:
 	void Set_event_queue(Event_queue* event_queue);
 	void Set_renderer(const Renderfunction& renderfunction);
 protected:
+	void Handle_child_event(const Event& event);
+
 	Widget* parent;
 	Event_queue* event_queue;
 	Renderfunction renderfunction;

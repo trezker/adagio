@@ -24,6 +24,21 @@ void Button::Handle_event(const ALLEGRO_EVENT &event)
 			mouse_over = false;
 		}
 	}
+	if(ALLEGRO_EVENT_MOUSE_BUTTON_DOWN == event.type)
+	{
+		if(mouse_over)
+		{
+			pressed = true;
+		}
+	}
+	if(ALLEGRO_EVENT_MOUSE_BUTTON_UP == event.type)
+	{
+		pressed = false;
+		if(mouse_over)
+		{
+			// todo: activation event
+		}
+	}
 }
 
 void Button::Render() const
@@ -39,6 +54,11 @@ void Button::Set_label(const std::string& l)
 std::string Button::Get_label() const
 {
 	return label;
+}
+
+bool Button::Get_pressed() const
+{
+	return pressed;
 }
 
 }

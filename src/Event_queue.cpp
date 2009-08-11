@@ -2,8 +2,41 @@
 
 namespace adagio
 {
-	bool Event_queue::Get_next_event(Event &e)
+	Event* Event::Clone() const
 	{
-		return false;
+		return new Event(*this);
+	}
+
+	Event_queue::~Event_queue()
+	{
+		while(!events.empty())
+		{
+			delete events.front();
+			events.pop();
+		}
+	}
+
+	void Event_queue::Push(const Event& e)
+	{
+		events.push(e.Clone());
+	}
+
+	void Event_queue::Pop()
+	{
+		if(!events.empty())
+		{
+			delete events.front();
+			events.pop();
+		}
+	}
+
+	bool Event_queue::Empty() const
+	{
+		return events.empty();
+	}
+
+	const Event& Event_queue::Front() const
+	{
+		return *events.front();
 	}
 }

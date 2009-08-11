@@ -9,6 +9,14 @@
 namespace adagio
 {
 
+	class Button_pressed_event: public Event
+	{
+		virtual Event* Clone() const
+		{
+			return new Button_pressed_event(*this);
+		}
+	};
+
 	class Widget_renderers
 	{
 	public:
@@ -16,6 +24,7 @@ namespace adagio
 		:font(NULL)
 		{
 		}
+		
 		
 		void Init()
 		{
@@ -40,7 +49,12 @@ namespace adagio
 			int w = button.Get_w();
 			int h = button.Get_h();
 			if(button.Get_mouse_over())
-				al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(200, 200, 200));
+			{
+				if(button.Get_pressed())
+					al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(50, 50, 50));
+				else
+					al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(200, 200, 200));
+			}
 			else
 				al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(100, 100, 100));
 			al_draw_text(font, x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
@@ -133,13 +147,15 @@ int main()
 			double dt = current_time - last_time;
 			last_time = current_time;
 	*/
-			adagio::Event gui_event;
-			while(gui_event_queue.Get_next_event(gui_event))
+			while(!gui_event_queue.Empty())
 			{
+				const adagio::Event &gui_event = gui_event_queue.Front();
 				if(button == gui_event.source && adagio::Button::EVENT_PRESSED == gui_event.type)
 				{
+					const adagio::Button_pressed_event& b_event = dynamic_cast<const adagio::Button_pressed_event&>(gui_event);
 					//do stuff
 				}
+				gui_event_queue.Pop();
 			}
 			//Update other stuff
 

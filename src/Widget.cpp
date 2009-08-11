@@ -74,4 +74,13 @@ void Widget::Set_renderer(const Renderfunction& r)
 	renderfunction = r;
 }
 
+void Widget::Handle_child_event(const Event& event)
+{
+/*	if(event_queue)
+	{
+		event_queue.
+	}
+*/
+}
+
 }

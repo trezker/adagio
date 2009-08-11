@@ -19,8 +19,10 @@ public:
 	virtual void Render() const;
 	void Set_label(const std::string& label);
 	std::string Get_label() const;
+	bool Get_pressed() const;
 private:
 	std::string label;
+	bool pressed;
 };
 
 }

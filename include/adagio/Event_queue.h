@@ -14,6 +14,7 @@ class Widget;
 class Event
 {
 public:
+	Event(Widget* source, const std::string& type);
 	Widget* source;
 	std::string type;
 	virtual Event* Clone() const;

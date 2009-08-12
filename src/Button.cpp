@@ -24,18 +24,12 @@ void Button::Handle_event(const ALLEGRO_EVENT &event)
 		if(!mouse_over && !(emx<x || emx>x+w || emy<y || emy>y+h))
 		{
 			mouse_over = true;
-			Event e;
-			e.source = this;
-			e.type = "enter";
-			Push_event(e);
+			Push_event(Event(this, "enter"));
 		}
 		else if(mouse_over && (emx<x || emx>x+w || emy<y || emy>y+h))
 		{
 			mouse_over = false;
-			Event e;
-			e.source = this;
-			e.type = "leave";
-			Push_event(e);
+			Push_event(Event(this, "leave"));
 		}
 	}
 	if(ALLEGRO_EVENT_MOUSE_BUTTON_DOWN == event.type)
@@ -43,25 +37,16 @@ void Button::Handle_event(const ALLEGRO_EVENT &event)
 		if(mouse_over)
 		{
 			pressed = true;
-			Event e;
-			e.source = this;
-			e.type = "pressed";
-			Push_event(e);
+			Push_event(Event(this, "pressed"));
 		}
 	}
 	if(pressed && ALLEGRO_EVENT_MOUSE_BUTTON_UP == event.type)
 	{
 		pressed = false;
-		Event e;
-		e.source = this;
-		e.type = "released";
-		Push_event(e);
+		Push_event(Event(this, "released"));
 		if(mouse_over)
 		{
-			Event e;
-			e.source = this;
-			e.type = "clicked";
-			Push_event(e);
+			Push_event(Event(this, "clicked"));
 		}
 	}
 }

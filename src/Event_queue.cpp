@@ -2,6 +2,12 @@
 
 namespace adagio
 {
+	Event::Event(Widget* s, const std::string& t)
+	:source(s)
+	,type(t)
+	{
+	}
+	
 	Event* Event::Clone() const
 	{
 		return new Event(*this);

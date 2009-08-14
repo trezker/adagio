@@ -24,8 +24,7 @@ namespace adagio
 		:font(NULL)
 		{
 		}
-		
-		
+
 		void Init()
 		{
 			font = al_load_font("data/times.ttf", 20, 0);
@@ -59,19 +58,25 @@ namespace adagio
 				al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(100, 100, 100));
 			al_draw_text(font, x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
 		}
+
+		void Render_toggle_button(const Toggle_button& button)
+		{
+			int x = button.Get_x();
+			int y = button.Get_y();
+			int w = button.Get_w();
+			int h = button.Get_h();
+
+			if(button.Get_active() || button.Get_pressed())
+				al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(50, 50, 50));
+			else
+				al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(100, 100, 100));
+
+			al_draw_text(font, x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
+		}
 	private:
 		ALLEGRO_FONT* font;
 	};
 	Widget_renderers wr;
-
-	void Render_group(const Group& group)
-	{
-		const Group::Widgets &widgets = group.Get_widgets();
-		for(Group::Widgets::const_iterator i = widgets.begin(); i != widgets.end(); ++i)
-		{
-			(*i)->Render();
-		}
-	}
 
 	void Init_default_widgets(Widget_factory &wf, Resource_manager &rm)
 	{
@@ -79,6 +84,10 @@ namespace adagio
 		Button* button = new Button;
 		wf.Set_prototype("button", button);
 		button->Set_renderer(Bind_renderfunction<Widget_renderers, Button>(&Widget_renderers::Render_button, wr));
+
+		Toggle_button* toggle_button = new Toggle_button;
+		wf.Set_prototype("toggle_button", toggle_button);
+		toggle_button->Set_renderer(Bind_renderfunction<Widget_renderers, Toggle_button>(&Widget_renderers::Render_toggle_button, wr));
 
 		Group* group = new Group;
 		group->Set_renderer(Bind_renderfunction<Widget_renderers, Group>(&Widget_renderers::Render_group, wr));
@@ -116,8 +125,14 @@ int main()
 		button->Set_position(10, 10);
 		button->Set_size(100, 30);
 
+		adagio::Toggle_button* toggle_button = widget_factory.Clone<adagio::Toggle_button>("toggle_button");
+		toggle_button->Set_label("Ze toggle");
+		toggle_button->Set_position(10, 50);
+		toggle_button->Set_size(100, 30);
+
 		adagio::Group* root = widget_factory.Clone<adagio::Group>("group");
 		root->Add_widget(button);
+		root->Add_widget(toggle_button);
 
 		adagio::Event_queue gui_event_queue;
 		root->Set_event_queue(&gui_event_queue); //All widgets send events to parent.
@@ -152,13 +167,18 @@ int main()
 				const adagio::Event &gui_event = gui_event_queue.Front();
 				if(button == gui_event.source)
 				{
+					printf("button ");
 //					const adagio::Button_pressed_event& b_event = dynamic_cast<const adagio::Button_pressed_event&>(gui_event);
-					printf("%s\n", gui_event.type.c_str());
 					if("clicked" == gui_event.type)
 					{
 						//Do stuff
 					}
 				}
+				if(toggle_button == gui_event.source)
+				{
+					printf("toggle_button ");
+				}
+				printf("%s\n", gui_event.type.c_str());
 				gui_event_queue.Pop();
 			}
 			//Update other stuff

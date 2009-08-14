@@ -6,7 +6,9 @@
 #include "Resource_manager.h"
 #include "Renderfunction.h"
 #include "Event_queue.h"
+
 #include "Button.h"
+#include "Toggle_button.h"
 #include "Group.h"
 
 #endif

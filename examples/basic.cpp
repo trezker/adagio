@@ -4,11 +4,10 @@
 #include <allegro5/a5_ttf.h>
 #include <allegro5/a5_primitives.h>
 #include <adagio/adagio.h>
-
+#include <adagio/Simple_renderer.h>
 
 namespace adagio
 {
-
 	class Button_pressed_event: public Event
 	{
 		virtual Event* Clone() const
@@ -16,101 +15,6 @@ namespace adagio
 			return new Button_pressed_event(*this);
 		}
 	};
-
-	class Widget_renderers
-	{
-	public:
-		Widget_renderers()
-		:font(NULL)
-		{
-		}
-
-		void Init()
-		{
-			font = al_load_font("data/times.ttf", 20, 0);
-			if(!font)
-				font = al_load_font("examples/data/times.ttf", 20, 0);
-		}
-
-		void Render_group(const Group& group)
-		{
-			const Group::Widgets &widgets = group.Get_widgets();
-			for(Group::Widgets::const_iterator i = widgets.begin(); i != widgets.end(); ++i)
-			{
-				(*i)->Render();
-			}
-		}
-		
-		void Render_button(const Button& button)
-		{
-			int x = button.Get_x();
-			int y = button.Get_y();
-			int w = button.Get_w();
-			int h = button.Get_h();
-			if(button.Get_mouse_over())
-			{
-				if(button.Get_pressed())
-					al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(50, 50, 50));
-				else
-					al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(200, 200, 200));
-			}
-			else
-				al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(100, 100, 100));
-			al_draw_text(font, x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
-		}
-
-		void Render_toggle_button(const Toggle_button& button)
-		{
-			int x = button.Get_x();
-			int y = button.Get_y();
-			int w = button.Get_w();
-			int h = button.Get_h();
-
-			if(button.Get_active() || button.Get_pressed())
-				al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(50, 50, 50));
-			else
-				al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(100, 100, 100));
-
-			al_draw_text(font, x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
-		}
-
-		void Render_radio_button(const Radio_button& button)
-		{
-			int x = button.Get_x();
-			int y = button.Get_y();
-			int w = button.Get_w();
-			int h = button.Get_h();
-
-			if(button.Get_active())
-				al_draw_filled_circle(x+8, y+8, 6, al_map_rgb(50, 50, 50));
-			al_draw_circle(x+8, y+8, 8, al_map_rgb(150, 150, 150), 1);
-
-			al_draw_text(font, x+20, y, ALLEGRO_ALIGN_LEFT, button.Get_label().c_str());
-		}
-	private:
-		ALLEGRO_FONT* font;
-	};
-	Widget_renderers wr;
-
-	void Init_default_widgets(Widget_factory &wf, Resource_manager &rm)
-	{
-		wr.Init();
-		Button* button = new Button;
-		wf.Set_prototype("button", button);
-		button->Set_renderer(Bind_renderfunction<Widget_renderers, Button>(&Widget_renderers::Render_button, wr));
-
-		Toggle_button* toggle_button = new Toggle_button;
-		wf.Set_prototype("toggle_button", toggle_button);
-		toggle_button->Set_renderer(Bind_renderfunction<Widget_renderers, Toggle_button>(&Widget_renderers::Render_toggle_button, wr));
-
-		Radio_button* radio_button = new Radio_button;
-		wf.Set_prototype("radio_button", radio_button);
-		radio_button->Set_renderer(Bind_renderfunction<Widget_renderers, Radio_button>(&Widget_renderers::Render_radio_button, wr));
-
-		Group* group = new Group;
-		group->Set_renderer(Bind_renderfunction<Widget_renderers, Group>(&Widget_renderers::Render_group, wr));
-		wf.Set_prototype("group", group);
-	}
 }
 
 int main()
@@ -132,9 +36,9 @@ int main()
 		al_register_event_source(event_queue, (ALLEGRO_EVENT_SOURCE *)al_get_keyboard());
 		al_register_event_source(event_queue, (ALLEGRO_EVENT_SOURCE *)al_get_mouse());
 
-		adagio::Resource_manager resource_manager;
 		adagio::Widget_factory widget_factory;
-		adagio::Init_default_widgets(widget_factory, resource_manager); //Sets up default widgets
+		adagio::Simple_renderer widget_renderer;
+		widget_renderer.Init(widget_factory);
 		//Optional, modify the widget prototypes, do skinning and behaviour changes, add custom widgets.
 
 		//Create and set up widgets

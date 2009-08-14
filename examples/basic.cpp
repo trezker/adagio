@@ -73,6 +73,20 @@ namespace adagio
 
 			al_draw_text(font, x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
 		}
+
+		void Render_radio_button(const Radio_button& button)
+		{
+			int x = button.Get_x();
+			int y = button.Get_y();
+			int w = button.Get_w();
+			int h = button.Get_h();
+
+			if(button.Get_active())
+				al_draw_filled_circle(x+8, y+8, 6, al_map_rgb(50, 50, 50));
+			al_draw_circle(x+8, y+8, 8, al_map_rgb(150, 150, 150), 1);
+
+			al_draw_text(font, x+20, y, ALLEGRO_ALIGN_LEFT, button.Get_label().c_str());
+		}
 	private:
 		ALLEGRO_FONT* font;
 	};
@@ -88,6 +102,10 @@ namespace adagio
 		Toggle_button* toggle_button = new Toggle_button;
 		wf.Set_prototype("toggle_button", toggle_button);
 		toggle_button->Set_renderer(Bind_renderfunction<Widget_renderers, Toggle_button>(&Widget_renderers::Render_toggle_button, wr));
+
+		Radio_button* radio_button = new Radio_button;
+		wf.Set_prototype("radio_button", radio_button);
+		radio_button->Set_renderer(Bind_renderfunction<Widget_renderers, Radio_button>(&Widget_renderers::Render_radio_button, wr));
 
 		Group* group = new Group;
 		group->Set_renderer(Bind_renderfunction<Widget_renderers, Group>(&Widget_renderers::Render_group, wr));
@@ -130,9 +148,23 @@ int main()
 		toggle_button->Set_position(10, 50);
 		toggle_button->Set_size(100, 30);
 
+		adagio::Radio_button* radio_button1 = widget_factory.Clone<adagio::Radio_button>("radio_button");
+		radio_button1->Create_group();
+		radio_button1->Set_label("Radio one");
+		radio_button1->Set_position(10, 100);
+		radio_button1->Set_size(100, 30);
+
+		adagio::Radio_button* radio_button2 = widget_factory.Clone<adagio::Radio_button>("radio_button");
+		radio_button2->Set_group(radio_button1->Get_group());
+		radio_button2->Set_label("Radio two");
+		radio_button2->Set_position(10, 150);
+		radio_button2->Set_size(100, 30);
+
 		adagio::Group* root = widget_factory.Clone<adagio::Group>("group");
 		root->Add_widget(button);
 		root->Add_widget(toggle_button);
+		root->Add_widget(radio_button1);
+		root->Add_widget(radio_button2);
 
 		adagio::Event_queue gui_event_queue;
 		root->Set_event_queue(&gui_event_queue); //All widgets send events to parent.

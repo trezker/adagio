@@ -27,7 +27,6 @@ void Toggle_button::Handle_event(const ALLEGRO_EVENT &event)
 	}
 
 	Button::Handle_event(event);
-	//Todo: toggle
 }
 
 void Toggle_button::Render() const
@@ -42,8 +41,11 @@ bool Toggle_button::Get_active() const
 
 void Toggle_button::Set_active(bool a)
 {
-	active = a;
-	//Event toggled?
+	if(active != a)
+	{
+		active = a;
+		Push_event(Event(this, "toggled"));
+	}
 }
 
 }

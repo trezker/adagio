@@ -1,0 +1,11 @@
+.sconf_temp/
+.sconsign.dblite
+config.log
+lib/
+obj/
+nd/Data/
+docs/html/
+test.cpp
+examples/basic
+examples/basic.o
+a.out

@@ -10,6 +10,8 @@
 #include "Button.h"
 #include "Toggle_button.h"
 #include "Radio_button.h"
+
 #include "Group.h"
+#include "VBox.h"
 
 #endif

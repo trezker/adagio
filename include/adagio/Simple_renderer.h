@@ -8,7 +8,10 @@ namespace adagio
 {
 
 class Widget_factory;
+
 class Group;
+class VBox;
+
 class Button;
 class Toggle_button;
 class Radio_button;
@@ -19,6 +22,7 @@ public:
 	Simple_renderer();
 	void Init(Widget_factory& factory);
 	void Render_group(const Group& group);
+	void Render_vbox(const VBox& vbox);
 	void Render_button(const Button& button);
 	void Render_toggle_button(const Toggle_button& button);
 	void Render_radio_button(const Radio_button& button);

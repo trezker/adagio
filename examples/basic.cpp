@@ -44,27 +44,31 @@ int main()
 		//Create and set up widgets
 		adagio::Button* button = widget_factory.Clone<adagio::Button>("button");
 		button->Set_label("Ze button");
-		button->Set_position(10, 10);
+/*		button->Set_position(10, 10);
 		button->Set_size(100, 30);
-
+*/
 		adagio::Toggle_button* toggle_button = widget_factory.Clone<adagio::Toggle_button>("toggle_button");
 		toggle_button->Set_label("Ze toggle");
-		toggle_button->Set_position(10, 50);
+/*		toggle_button->Set_position(10, 50);
 		toggle_button->Set_size(100, 30);
-
+*/
 		adagio::Radio_button* radio_button1 = widget_factory.Clone<adagio::Radio_button>("radio_button");
 		radio_button1->Create_group();
 		radio_button1->Set_label("Radio one");
-		radio_button1->Set_position(10, 100);
+/*		radio_button1->Set_position(10, 100);
 		radio_button1->Set_size(100, 30);
-
+*/
 		adagio::Radio_button* radio_button2 = widget_factory.Clone<adagio::Radio_button>("radio_button");
 		radio_button2->Set_group(radio_button1->Get_group());
 		radio_button2->Set_label("Radio two");
-		radio_button2->Set_position(10, 150);
+/*		radio_button2->Set_position(10, 150);
 		radio_button2->Set_size(100, 30);
-
-		adagio::Group* root = widget_factory.Clone<adagio::Group>("group");
+*/
+//		adagio::Group* root = widget_factory.Clone<adagio::Group>("group");
+		adagio::VBox* root = widget_factory.Clone<adagio::VBox>("vbox");
+		root->Set_position(10, 20);
+		root->Set_size(100, 300);
+		root->Set_spacing(10);
 		root->Add_widget(button);
 		root->Add_widget(toggle_button);
 		root->Add_widget(radio_button1);

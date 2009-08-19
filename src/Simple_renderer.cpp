@@ -1,6 +1,9 @@
 #include "adagio/Simple_renderer.h"
 #include "adagio/Widget_factory.h"
+
 #include "adagio/Group.h"
+#include "adagio/VBox.h"
+
 #include "adagio/Button.h"
 #include "adagio/Toggle_button.h"
 #include "adagio/Radio_button.h"
@@ -36,11 +39,24 @@ void Simple_renderer::Init(Widget_factory& factory)
 	Group* group = new Group;
 	factory.Set_prototype("group", group);
 	group->Set_renderer(Bind_renderfunction<Simple_renderer, Group>(&Simple_renderer::Render_group, *this));
+
+	VBox* vbox = new VBox;
+	factory.Set_prototype("vbox", vbox);
+	vbox->Set_renderer(Bind_renderfunction<Simple_renderer, VBox>(&Simple_renderer::Render_vbox, *this));
 }
 
 void Simple_renderer::Render_group(const Group& group)
 {
 	const Group::Widgets &widgets = group.Get_widgets();
+	for(Group::Widgets::const_iterator i = widgets.begin(); i != widgets.end(); ++i)
+	{
+		(*i)->Render();
+	}
+}
+
+void Simple_renderer::Render_vbox(const VBox& vbox)
+{
+	const Group::Widgets &widgets = vbox.Get_widgets();
 	for(Group::Widgets::const_iterator i = widgets.begin(); i != widgets.end(); ++i)
 	{
 		(*i)->Render();

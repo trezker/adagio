@@ -2,7 +2,7 @@
 #define adagio_simple_renderer_h
 
 #include <allegro5/allegro.h>
-#include <allegro5/a5_font.h>
+#include <allegro5/allegro_font.h>
 
 namespace adagio
 {

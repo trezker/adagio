@@ -106,7 +106,7 @@ namespace adagio
 		{
 			if(!active)
 			{
-				printf("Should not happen");
+				std::cout<<"Should not happen"<<std::endl;
 				for(Radio_group::iterator i = group->begin(); i != group->end(); ++i)
 				{
 					if(*i == this)

@@ -1,8 +1,8 @@
 #include <allegro5/allegro5.h>
-#include <allegro5/a5_iio.h>
-#include <allegro5/a5_font.h>
-#include <allegro5/a5_ttf.h>
-#include <allegro5/a5_primitives.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_primitives.h>
 #include <adagio/adagio.h>
 #include <adagio/Simple_renderer.h>
 
@@ -23,7 +23,7 @@ int main()
 		al_init();
 		al_install_mouse();
 		al_install_keyboard();
-		al_init_iio_addon();
+		al_init_image_addon();
 		al_init_font_addon();
 		al_init_ttf_addon();
 		
@@ -33,8 +33,8 @@ int main()
 
 		ALLEGRO_EVENT_QUEUE *event_queue = al_create_event_queue();
 		al_register_event_source(event_queue, (ALLEGRO_EVENT_SOURCE *)display);
-		al_register_event_source(event_queue, (ALLEGRO_EVENT_SOURCE *)al_get_keyboard());
-		al_register_event_source(event_queue, (ALLEGRO_EVENT_SOURCE *)al_get_mouse());
+		al_register_event_source(event_queue, al_get_keyboard_event_source());
+		al_register_event_source(event_queue, al_get_mouse_event_source());
 
 		adagio::Widget_factory widget_factory;
 		adagio::Simple_renderer widget_renderer;
@@ -107,7 +107,7 @@ int main()
 				const adagio::Event &gui_event = gui_event_queue.Front();
 				if(button == gui_event.source)
 				{
-					printf("button ");
+					std::cout<<"button "<<std::endl;
 //					const adagio::Button_pressed_event& b_event = dynamic_cast<const adagio::Button_pressed_event&>(gui_event);
 					if("clicked" == gui_event.type)
 					{
@@ -116,9 +116,9 @@ int main()
 				}
 				if(toggle_button == gui_event.source)
 				{
-					printf("toggle_button ");
+					std::cout<<"toggle_button "<<std::endl;
 				}
-				printf("%s\n", gui_event.type.c_str());
+				std::cout<<gui_event.type.c_str()<<std::endl;
 				gui_event_queue.Pop();
 			}
 			//Update other stuff
@@ -138,7 +138,7 @@ int main()
 	}
 	catch(const char* param)
 	{
-		printf("%s\n", param);
+		std::cout<<param<<std::endl;
 	}
 	return 0;
 }

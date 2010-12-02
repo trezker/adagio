@@ -8,7 +8,7 @@
 #include "adagio/Toggle_button.h"
 #include "adagio/Radio_button.h"
 
-#include <allegro5/a5_primitives.h>
+#include <allegro5/allegro_primitives.h>
 
 namespace adagio
 {
@@ -78,7 +78,7 @@ void Simple_renderer::Render_button(const Button& button)
 	}
 	else
 		al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(100, 100, 100));
-	al_draw_text(font, x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
+	al_draw_text(font, al_map_rgb_f(1, 1, 1), x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
 }
 
 void Simple_renderer::Render_toggle_button(const Toggle_button& button)
@@ -93,7 +93,7 @@ void Simple_renderer::Render_toggle_button(const Toggle_button& button)
 	else
 		al_draw_filled_rectangle(x, y, x+w, y+h, al_map_rgb(100, 100, 100));
 
-	al_draw_text(font, x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
+	al_draw_text(font, al_map_rgb_f(1, 1, 1), x+w/2, y, ALLEGRO_ALIGN_CENTRE, button.Get_label().c_str());
 }
 
 void Simple_renderer::Render_radio_button(const Radio_button& button)
@@ -107,7 +107,7 @@ void Simple_renderer::Render_radio_button(const Radio_button& button)
 		al_draw_filled_circle(x+8, y+8, 6, al_map_rgb(50, 50, 50));
 	al_draw_circle(x+8, y+8, 8, al_map_rgb(150, 150, 150), 1);
 
-	al_draw_text(font, x+20, y, ALLEGRO_ALIGN_LEFT, button.Get_label().c_str());
+	al_draw_text(font, al_map_rgb_f(1, 1, 1), x+20, y, ALLEGRO_ALIGN_LEFT, button.Get_label().c_str());
 }
 
 }

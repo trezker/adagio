@@ -26,7 +26,7 @@ public:
 	{}
 	virtual Renderfunction_impl* Clone() const
 	{
-		printf("Clone base\n");
+		std::cout<<"Clone base"<<std::endl;
 		return new Renderfunction_impl(*this);
 	} 
 	virtual void operator()(const Widget& arg0)

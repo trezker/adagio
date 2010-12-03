@@ -1,7 +1,7 @@
 #ifndef adagio_widget_h
 #define adagio_widget_h
 
-#include "adagio/Renderfunction.h"
+#include "adagio/Function.h"
 union ALLEGRO_EVENT;
 
 namespace adagio
@@ -9,7 +9,6 @@ namespace adagio
 
 class Event_queue;
 class Event;
-class Renderfunction;
 
 /* Class: Widget
  * */
@@ -36,14 +35,14 @@ public:
 	bool Get_mouse_over() const;
 
 	void Set_event_queue(Event_queue* event_queue);
-	void Set_renderer(const Renderfunction& renderfunction);
+	void Set_renderer(const Function<const Widget&>& renderfunction);
 protected:
 	void Push_event(const Event& event);
 	void Handle_child_event(const Event& event);
 
 	Widget* parent;
 	Event_queue* event_queue;
-	Renderfunction renderfunction;
+	Function<const Widget&> renderfunction;
 	int x;
 	int y;
 	int w;

@@ -26,23 +26,23 @@ void Simple_renderer::Init(Widget_factory& factory)
 
 	Button* button = new Button;
 	factory.Set_prototype("button", button);
-	button->Set_renderer(Bind_renderfunction<Simple_renderer, Button>(&Simple_renderer::Render_button, *this));
+	button->Set_renderer(Bind_function<Simple_renderer, const Button&, const Widget&>(&Simple_renderer::Render_button, *this));
 
 	Toggle_button* toggle_button = new Toggle_button;
 	factory.Set_prototype("toggle_button", toggle_button);
-	toggle_button->Set_renderer(Bind_renderfunction<Simple_renderer, Toggle_button>(&Simple_renderer::Render_toggle_button, *this));
+	toggle_button->Set_renderer(Bind_function<Simple_renderer, const Toggle_button&, const Widget&>(&Simple_renderer::Render_toggle_button, *this));
 
 	Radio_button* radio_button = new Radio_button;
 	factory.Set_prototype("radio_button", radio_button);
-	radio_button->Set_renderer(Bind_renderfunction<Simple_renderer, Radio_button>(&Simple_renderer::Render_radio_button, *this));
+	radio_button->Set_renderer(Bind_function<Simple_renderer, const Radio_button&, const Widget&>(&Simple_renderer::Render_radio_button, *this));
 
 	Group* group = new Group;
 	factory.Set_prototype("group", group);
-	group->Set_renderer(Bind_renderfunction<Simple_renderer, Group>(&Simple_renderer::Render_group, *this));
+	group->Set_renderer(Bind_function<Simple_renderer, const Group&, const Widget&>(&Simple_renderer::Render_group, *this));
 
 	VBox* vbox = new VBox;
 	factory.Set_prototype("vbox", vbox);
-	vbox->Set_renderer(Bind_renderfunction<Simple_renderer, VBox>(&Simple_renderer::Render_vbox, *this));
+	vbox->Set_renderer(Bind_function<Simple_renderer, const VBox&, const Widget&>(&Simple_renderer::Render_vbox, *this));
 }
 
 void Simple_renderer::Render_group(const Group& group)

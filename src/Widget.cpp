@@ -1,10 +1,6 @@
 #include "adagio/Widget.h"
 #include "adagio/Event_queue.h"
 
-#ifndef NULL
-#define NULL 0
-#endif
-
 namespace adagio
 {
 
@@ -70,7 +66,7 @@ void Widget::Set_event_queue(Event_queue* e)
 	event_queue = e;
 }
 
-void Widget::Set_renderer(const Renderfunction& r)
+void Widget::Set_renderer(const Function<const Widget&>& r)
 {
 	renderfunction = r;
 }
